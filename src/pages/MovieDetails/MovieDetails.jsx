@@ -5,7 +5,7 @@ import { fetchFilmToId } from 'shared/api/themoviedb';
 
 const MovieDetails = () => {
   const [state, setState] = useState({
-    items: {},
+    item: {},
     loading: false,
     error: null,
   });
@@ -28,7 +28,7 @@ const MovieDetails = () => {
         setState(prevState => {
           return {
             ...prevState,
-            items: [...prevState.items, ...data.results],
+            item: [...prevState.item, ...data.results],
           };
         });
       } catch (error) {
@@ -48,7 +48,7 @@ const MovieDetails = () => {
     getTrandingMovie();
   }, [setState]);
 
-  const { title } = state;
+  const { title } = state.item;
   console.log(title);
 
   return (
