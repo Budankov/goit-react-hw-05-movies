@@ -1,5 +1,12 @@
+import MovieList from 'modules/MovieList/MovieList';
+
 const Home = () => {
-  return <h1>Home Page</h1>;
+  return (
+    <div>
+      <h2>Tranding today</h2>
+      <MovieList />
+    </div>
+  );
 };
 
 export default Home;

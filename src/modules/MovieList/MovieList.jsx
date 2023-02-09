@@ -1,19 +1,14 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { fetchFilmToId } from 'shared/api/themoviedb';
+import { fetchTrendingFilms } from 'shared/api/themoviedb';
 
-const MovieDetails = () => {
+const MovieList = () => {
   const [state, setState] = useState({
-    items: {},
+    items: [],
     loading: false,
     error: null,
   });
-
-  // const params = useParams();
-  // console.log(params);
-
-  const { id } = useParams();
 
   useEffect(() => {
     const getTrandingMovie = async () => {
@@ -24,7 +19,7 @@ const MovieDetails = () => {
       }));
 
       try {
-        const { data } = await fetchFilmToId(id);
+        const { data } = await fetchTrendingFilms();
         setState(prevState => {
           return {
             ...prevState,
@@ -48,14 +43,21 @@ const MovieDetails = () => {
     getTrandingMovie();
   }, [setState]);
 
-  const { title } = state;
-  console.log(title);
+  const { items, loading, error } = state;
+
+  const elements = items.map(({ id, title }, index) => (
+    <li key={index}>
+      <Link to={`/movie/${id}`}>{title}</Link>
+    </li>
+  ));
 
   return (
-    <>
-      <h2>{title}</h2>
-    </>
+    <div>
+      <ul>{elements}</ul>
+      {loading && <p>...Load movie</p>}
+      {error && <p>...Movie load failed</p>}
+    </div>
   );
 };
 
-export default MovieDetails;
+export default MovieList;
