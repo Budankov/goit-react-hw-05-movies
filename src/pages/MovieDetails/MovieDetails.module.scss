@@ -1,0 +1,30 @@
+.MovieDetailsContainer {
+  display: flex;
+  flex-direction: row;
+  flex: 1 0 100%;
+  padding: 50px 0px;
+}
+
+.MovieDetailsImage {
+  display: flex;
+  flex: 1 0 30%;
+  justify-content: center;
+}
+
+.MovieDetailsDescription {
+  flex: 1 0 70%;
+}
+
+.MovieDetailsTitle {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.MovieDetailsSubTitle {
+  font-weight: 700;
+  padding: 20px 0px 10px 0px;
+}
+
+.MovieDetailsUserScore {
+}

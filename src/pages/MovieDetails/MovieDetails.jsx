@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 
 import { fetchFilmToId } from 'shared/api/themoviedb';
+
+import styles from './MovieDetails.module.scss';
 
 const MovieDetails = () => {
   const [state, setState] = useState({
@@ -10,10 +12,9 @@ const MovieDetails = () => {
     error: null,
   });
 
-  // const params = useParams();
-  // console.log(params);
-
-  const { id } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { movieId } = useParams();
 
   useEffect(() => {
     const getTrandingMovie = async () => {
@@ -24,18 +25,18 @@ const MovieDetails = () => {
       }));
 
       try {
-        const { data } = await fetchFilmToId(id);
+        const { data } = await fetchFilmToId(movieId);
         setState(prevState => {
           return {
             ...prevState,
-            item: [...prevState.item, ...data.results],
+            item: data,
           };
         });
       } catch (error) {
-        setState({
-          ...state,
+        setState(prevState => ({
+          ...prevState,
           error,
-        });
+        }));
       } finally {
         setState(prevState => {
           return {
@@ -45,15 +46,45 @@ const MovieDetails = () => {
         });
       }
     };
-    getTrandingMovie();
-  }, [setState]);
+    getTrandingMovie(movieId);
+  }, [movieId]);
 
-  const { title } = state.item;
-  console.log(title);
+  const { title, poster_path, overview, genres, vote_average, vote_count } =
+    state.item;
+  // console.log(genres);
+
+  const goBack = () => navigate(-1);
+
+  const imageUrl = `https://image.tmdb.org/t/p/w300${poster_path}`;
+  const userScorePecentage = () => {
+    return Math.round(vote_average * 10);
+  };
+  const userScore = userScorePecentage();
+  const ganresList = genres?.map(ganre => ganre.name).join(', ');
 
   return (
     <>
-      <h2>{title}</h2>
+      <button onClick={goBack}>Повернутись на попередню сторінку</button>
+      <div className={styles.MovieDetailsContainer}>
+        <div className={styles.MovieDetailsImage}>
+          <img src={imageUrl} alt=""></img>
+        </div>
+        <div className={styles.MovieDetailsDescription}>
+          <h2 className={styles.MovieDetailsTitle}>{title}</h2>
+          <p className={styles.MovieDetailsUserScore}>
+            Оцінка користувачів:&ensp;
+            {userScore !== '' ? userScore : 'Оцінка не вказана'}% (
+            {vote_count !== ''
+              ? vote_count
+              : 'Кількість користувачів не вказана'}
+            )
+          </p>
+          <p className={styles.MovieDetailsSubTitle}>Короткий опис</p>
+          <p>{overview !== '' ? overview : 'Опис не вказано'}</p>
+          <p className={styles.MovieDetailsSubTitle}>Жанри</p>
+          <p>{ganresList !== '' ? ganresList : 'Жанри не вказано'}</p>
+        </div>
+      </div>
     </>
   );
 };

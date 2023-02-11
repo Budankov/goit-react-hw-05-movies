@@ -3,3 +3,6 @@ const Cast = () => {
 };
 
 export default Cast;
+
+// fetch. картинки акторів. 
+// Замість id, взяти cast_id
