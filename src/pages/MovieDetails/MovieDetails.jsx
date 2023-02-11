@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 import { fetchFilmToId } from 'shared/api/themoviedb';
 
@@ -54,8 +54,6 @@ const MovieDetails = () => {
 
   const goBack = () => navigate(-1);
 
-  const imageUrl = `https://image.tmdb.org/t/p/w300${poster_path}`;
-
   const ganresList = genres?.map(ganre => ganre.name).join(', ');
 
   const userScore = () => {
@@ -81,7 +79,14 @@ const MovieDetails = () => {
       </button>
       <div className={styles.MovieDetailsContainer}>
         <div className={styles.MovieDetailsImage}>
-          <img src={imageUrl} alt=""></img>
+          <img
+            src={
+              poster_path === null
+                ? 'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg'
+                : `https://image.tmdb.org/t/p/w500${poster_path}`
+            }
+            alt=""
+          ></img>
         </div>
         <div className={styles.MovieDetailsDescription}>
           <h2 className={styles.MovieDetailsTitle}>{title}</h2>
@@ -91,6 +96,11 @@ const MovieDetails = () => {
           <p className={styles.MovieDetailsSubTitle}>Жанри</p>
           <p>{ganresList !== '' ? ganresList : 'Жанри не вказано'}</p>
         </div>
+      </div>
+      <div>
+        <p>Додаткова інформація</p>
+        <Link to={`/movies/${movieId}/cast`}>Cast</Link>
+        <Link to={`/movies/${movieId}/reviews`}>Reviews</Link>
       </div>
     </>
   );

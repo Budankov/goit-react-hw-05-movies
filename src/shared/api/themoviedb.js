@@ -21,3 +21,9 @@ export const fetchSearchFilms = async (searchQuery, page = 1) => {
     `${SEARCH_URL}?api_key=${API_KEY}&query=${searchQuery}&page=${page}&language=uk-UA`
   );
 };
+
+export const fetchCastFilmToId = async id => {
+  return await axios.get(
+    `${ID_URL}${id}/credits?api_key=${API_KEY}&language=uk-UA`
+  );
+};
