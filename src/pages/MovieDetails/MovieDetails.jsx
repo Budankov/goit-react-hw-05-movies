@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import { fetchFilmToId } from 'shared/api/themoviedb';
 
@@ -12,7 +12,6 @@ const MovieDetails = () => {
     error: null,
   });
 
-  const location = useLocation();
   const navigate = useNavigate();
   const { movieId } = useParams();
 
@@ -56,11 +55,24 @@ const MovieDetails = () => {
   const goBack = () => navigate(-1);
 
   const imageUrl = `https://image.tmdb.org/t/p/w300${poster_path}`;
-  const userScorePecentage = () => {
-    return Math.round(vote_average * 10);
-  };
-  const userScore = userScorePecentage();
+
   const ganresList = genres?.map(ganre => ganre.name).join(', ');
+
+  const userScore = () => {
+    const scorePecentage = () => {
+      return Math.round(vote_average * 10);
+    };
+    const userScorePecentage = scorePecentage();
+
+    return (
+      <p className={styles.MovieDetailsUserScore}>
+        Оцінка користувачів:&ensp;
+        {userScorePecentage}% ({vote_count})
+      </p>
+    );
+  };
+
+  const Score = userScore();
 
   return (
     <>
@@ -71,14 +83,7 @@ const MovieDetails = () => {
         </div>
         <div className={styles.MovieDetailsDescription}>
           <h2 className={styles.MovieDetailsTitle}>{title}</h2>
-          <p className={styles.MovieDetailsUserScore}>
-            Оцінка користувачів:&ensp;
-            {userScore !== '' ? userScore : 'Оцінка не вказана'}% (
-            {vote_count !== ''
-              ? vote_count
-              : 'Кількість користувачів не вказана'}
-            )
-          </p>
+          {vote_average > 0 && Score}
           <p className={styles.MovieDetailsSubTitle}>Короткий опис</p>
           <p>{overview !== '' ? overview : 'Опис не вказано'}</p>
           <p className={styles.MovieDetailsSubTitle}>Жанри</p>

@@ -49,7 +49,9 @@ const Home = () => {
   return (
     <div>
       <h2>Tranding today</h2>
-      {items && <MovieList items={items} loading={loading} error={error} />}
+      {items.length > 0 && (
+        <MovieList items={items} loading={loading} error={error} />
+      )}
     </div>
   );
 };
