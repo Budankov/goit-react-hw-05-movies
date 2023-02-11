@@ -27,3 +27,7 @@ export const fetchCastFilmToId = async id => {
     `${ID_URL}${id}/credits?api_key=${API_KEY}&language=uk-UA`
   );
 };
+
+export const fetchReviewsFilmToId = async id => {
+  return await axios.get(`${ID_URL}${id}/reviews?api_key=${API_KEY}`);
+};

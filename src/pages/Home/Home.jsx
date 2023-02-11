@@ -50,7 +50,7 @@ const Home = () => {
 
   return (
     <div>
-      <h2 className={styles.title}>Tranding today</h2>
+      <h2 className={styles.title}>У тренді сьогодні</h2>
       {items.length > 0 && (
         <MovieList items={items} loading={loading} error={error} />
       )}

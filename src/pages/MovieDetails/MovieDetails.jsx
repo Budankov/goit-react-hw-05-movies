@@ -41,7 +41,6 @@ const MovieDetails = () => {
 
   const { title, poster_path, overview, genres, vote_average, vote_count } =
     movies;
-  // console.log(poster_path);
 
   const ganresList = genres?.map(ganre => ganre.name).join(', ');
 

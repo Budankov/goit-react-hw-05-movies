@@ -17,7 +17,6 @@ const Cast = () => {
       setIsLoading(true);
       try {
         const { data } = await fetchCastFilmToId(movieId);
-        // console.log(data);
         setCast(data.cast);
       } catch (error) {
         setError(error.massage);
@@ -46,7 +45,7 @@ const Cast = () => {
           <div className={styles.castActorInfo}>
             <div className={styles.castActorName}>{name}</div>
             <div className={styles.castActorCharacter}>
-              Character: {character}
+              Персонаж: {character}
             </div>
           </div>
         </li>
