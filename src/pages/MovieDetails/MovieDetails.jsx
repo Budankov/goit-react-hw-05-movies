@@ -76,7 +76,9 @@ const MovieDetails = () => {
 
   return (
     <>
-      <button onClick={goBack}>Повернутись на попередню сторінку</button>
+      <button className={styles.goBack} onClick={goBack}>
+        Повернутись на попередню сторінку
+      </button>
       <div className={styles.MovieDetailsContainer}>
         <div className={styles.MovieDetailsImage}>
           <img src={imageUrl} alt=""></img>

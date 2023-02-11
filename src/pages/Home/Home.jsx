@@ -4,6 +4,8 @@ import { fetchTrendingFilms } from 'shared/api/themoviedb';
 
 import MovieList from 'modules/MovieList/MovieList';
 
+import styles from './Home.module.scss';
+
 const Home = () => {
   const [state, setState] = useState({
     items: [],
@@ -48,7 +50,7 @@ const Home = () => {
 
   return (
     <div>
-      <h2>Tranding today</h2>
+      <h2 className={styles.title}>Tranding today</h2>
       {items.length > 0 && (
         <MovieList items={items} loading={loading} error={error} />
       )}

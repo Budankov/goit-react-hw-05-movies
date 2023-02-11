@@ -6,6 +6,8 @@ import { fetchSearchFilms } from 'shared/api/themoviedb';
 import MovieSearchForm from 'modules/MovieSearchForm/MovieSearchForm';
 import MovieList from 'modules/MovieList/MovieList';
 
+import styles from './Movies.module.scss';
+
 const Movies = () => {
   const [state, setState] = useState({
     items: [],
@@ -55,7 +57,7 @@ const Movies = () => {
 
   return (
     <div>
-      <h2>Пошук фільма</h2>
+      <h2 className={styles.title}>Пошук фільма</h2>
       <MovieSearchForm onSubmit={changeSearch} />
       {items.length > 0 && <MovieList items={items} />}
     </div>

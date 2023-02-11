@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import styles from './MovieSearchForm.module.scss';
+
 const MovieSearchForm = ({ onSubmit }) => {
   const [state, setState] = useState({
     search: '',
@@ -23,6 +25,7 @@ const MovieSearchForm = ({ onSubmit }) => {
   return (
     <form onSubmit={handleSubmit}>
       <input
+        className={styles.searchInput}
         name="search"
         value={state.search}
         onChange={handleChange}
