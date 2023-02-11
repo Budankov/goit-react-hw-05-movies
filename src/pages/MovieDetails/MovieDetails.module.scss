@@ -9,6 +9,10 @@
   display: flex;
   flex: 1 0 30%;
   justify-content: center;
+
+  & img {
+    width: 350px;
+  }
 }
 
 .MovieDetailsDescription {
@@ -31,4 +35,27 @@
 
 .goBack {
   margin: 5px 0px 0px 5px;
+}
+
+.MovieDetailsInfo {
+  padding-left: 30px;
+  border-bottom: 1px solid black;
+}
+
+.MovieDetailsSubInfo {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.MovieDetailsTextInfo {
+  display: flex;
+  flex-direction: column;
+
+  & a {
+    padding-top: 5px;
+
+    &:hover {
+      color: rgb(24, 219, 76);
+    }
+  }
 }

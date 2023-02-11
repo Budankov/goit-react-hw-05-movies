@@ -6,7 +6,7 @@ import { fetchCastFilmToId } from 'shared/api/themoviedb';
 import styles from './Cast.module.scss';
 
 const Cast = () => {
-  const [credits, setCredits] = useState([]);
+  const [cast, setCast] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -18,7 +18,7 @@ const Cast = () => {
       try {
         const { data } = await fetchCastFilmToId(movieId);
         // console.log(data);
-        setCredits(data.cast);
+        setCast(data.cast);
       } catch (error) {
         setError(error.massage);
       } finally {
@@ -28,7 +28,7 @@ const Cast = () => {
     getCastMovie(movieId);
   }, [movieId]);
 
-  const renderCastList = credits?.map(
+  const renderCastList = cast?.map(
     ({ cast_id, name, character, profile_path }) => {
       return (
         <li key={cast_id} className={styles.castItem}>
@@ -45,7 +45,9 @@ const Cast = () => {
           </div>
           <div className={styles.castActorInfo}>
             <div className={styles.castActorName}>{name}</div>
-            <div className={styles.castActorCharacter}>Character: {character}</div>
+            <div className={styles.castActorCharacter}>
+              Character: {character}
+            </div>
           </div>
         </li>
       );
@@ -54,7 +56,7 @@ const Cast = () => {
 
   return (
     <div>
-      <h3>Cast Page</h3>
+      <h3 className={styles.castTitle}>Акторський склад</h3>
       {isLoading && <p>Завантажую...</p>}
       {error && <p>{error.massage}</p>}
       <ul className={styles.castList}>{renderCastList}</ul>
@@ -63,6 +65,3 @@ const Cast = () => {
 };
 
 export default Cast;
-
-// fetch. картинки акторів.
-// Замість id, взяти cast_id

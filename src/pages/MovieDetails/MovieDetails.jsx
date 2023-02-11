@@ -1,56 +1,37 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link, Outlet } from 'react-router-dom';
 
 import { fetchFilmToId } from 'shared/api/themoviedb';
 
 import styles from './MovieDetails.module.scss';
 
 const MovieDetails = () => {
-  const [state, setState] = useState({
-    item: {},
-    loading: false,
-    error: null,
-  });
+  const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
   const { movieId } = useParams();
 
   useEffect(() => {
     const getTrandingMovie = async () => {
-      setState(prevState => ({
-        ...prevState,
-        loading: true,
-        error: null,
-      }));
+      setIsLoading(true);
 
       try {
         const { data } = await fetchFilmToId(movieId);
-        setState(prevState => {
-          return {
-            ...prevState,
-            item: data,
-          };
-        });
+        setMovies(data);
       } catch (error) {
-        setState(prevState => ({
-          ...prevState,
-          error,
-        }));
+        setError(error.massage);
       } finally {
-        setState(prevState => {
-          return {
-            ...prevState,
-            loading: false,
-          };
-        });
+        setIsLoading(false);
       }
     };
     getTrandingMovie(movieId);
   }, [movieId]);
 
   const { title, poster_path, overview, genres, vote_average, vote_count } =
-    state.item;
-  // console.log(genres);
+    movies;
+  // console.log(poster_path);
 
   const goBack = () => navigate(-1);
 
@@ -77,6 +58,8 @@ const MovieDetails = () => {
       <button className={styles.goBack} onClick={goBack}>
         Повернутись на попередню сторінку
       </button>
+      {isLoading && <p>Завантажую...</p>}
+      {error && <p>{error.massage}</p>}
       <div className={styles.MovieDetailsContainer}>
         <div className={styles.MovieDetailsImage}>
           <img
@@ -97,10 +80,13 @@ const MovieDetails = () => {
           <p>{ganresList !== '' ? ganresList : 'Жанри не вказано'}</p>
         </div>
       </div>
-      <div>
-        <p>Додаткова інформація</p>
-        <Link to={`/movies/${movieId}/cast`}>Cast</Link>
-        <Link to={`/movies/${movieId}/reviews`}>Reviews</Link>
+      <div className={styles.MovieDetailsInfo}>
+        <p className={styles.MovieDetailsSubInfo}>Додаткова інформація:</p>
+        <div className={styles.MovieDetailsTextInfo}>
+          <Link to={`/movies/${movieId}/cast`}>Акторський склад</Link>
+          <Link to={`/movies/${movieId}/reviews`}>Відгуки</Link>
+          <Outlet />
+        </div>
       </div>
     </>
   );
