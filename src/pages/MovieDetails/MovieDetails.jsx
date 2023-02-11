@@ -1,5 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link, Outlet } from 'react-router-dom';
+import {
+  useParams,
+  useNavigate,
+  useLocation,
+  Link,
+  Outlet,
+} from 'react-router-dom';
 
 import { fetchFilmToId } from 'shared/api/themoviedb';
 
@@ -10,8 +16,12 @@ const MovieDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const navigate = useNavigate();
   const { movieId } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || '/';
+
+  const goBack = () => navigate(from);
 
   useEffect(() => {
     const getTrandingMovie = async () => {
@@ -32,8 +42,6 @@ const MovieDetails = () => {
   const { title, poster_path, overview, genres, vote_average, vote_count } =
     movies;
   // console.log(poster_path);
-
-  const goBack = () => navigate(-1);
 
   const ganresList = genres?.map(ganre => ganre.name).join(', ');
 
@@ -64,7 +72,7 @@ const MovieDetails = () => {
         <div className={styles.MovieDetailsImage}>
           <img
             src={
-              poster_path === null
+              poster_path === undefined
                 ? 'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg'
                 : `https://image.tmdb.org/t/p/w500${poster_path}`
             }
@@ -83,8 +91,12 @@ const MovieDetails = () => {
       <div className={styles.MovieDetailsInfo}>
         <p className={styles.MovieDetailsSubInfo}>Додаткова інформація:</p>
         <div className={styles.MovieDetailsTextInfo}>
-          <Link to={`/movies/${movieId}/cast`}>Акторський склад</Link>
-          <Link to={`/movies/${movieId}/reviews`}>Відгуки</Link>
+          <Link state={{ from }} to={`/movies/${movieId}/cast`}>
+            Акторський склад
+          </Link>
+          <Link state={{ from }} to={`/movies/${movieId}/reviews`}>
+            Відгуки
+          </Link>
           <Outlet />
         </div>
       </div>
