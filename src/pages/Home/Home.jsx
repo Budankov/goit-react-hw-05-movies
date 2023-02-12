@@ -3,54 +3,35 @@ import { useState, useEffect } from 'react';
 import { fetchTrendingFilms } from 'shared/api/themoviedb';
 
 import MovieList from 'modules/MovieList/MovieList';
+import Loader from 'shared/components/Loader/Loader';
 
 import styles from './Home.module.scss';
 
 const Home = () => {
-  const [state, setState] = useState({
-    items: [],
-    loading: false,
-    error: null,
-  });
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const getTrandingMovie = async () => {
-      setState(prevState => ({
-        ...prevState,
-        loading: true,
-        error: null,
-      }));
-
       try {
+        setLoading(true);
         const { data } = await fetchTrendingFilms();
-        setState(prevState => {
-          return {
-            ...prevState,
-            items: [...data.results],
-          };
-        });
+        setItems(data.results);
       } catch (error) {
-        setState(prevState => ({
-          ...prevState,
-          error,
-        }));
+        setError(error.massage);
       } finally {
-        setState(prevState => {
-          return {
-            ...prevState,
-            loading: false,
-          };
-        });
+        setLoading(false);
       }
     };
     getTrandingMovie();
   }, []);
 
-  const { items, loading, error } = state;
-
   return (
     <div>
       <h2 className={styles.title}>У тренді сьогодні</h2>
+      {loading && <Loader />}
+      {error && <p>{error.massage}</p>}
       {items.length > 0 && (
         <MovieList items={items} loading={loading} error={error} />
       )}

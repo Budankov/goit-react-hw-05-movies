@@ -9,21 +9,21 @@ import styles from './Reviews.module.scss';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
-  const [loading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const { movieId } = useParams();
 
   useEffect(() => {
     const getReviewsMovie = async () => {
-      setIsLoading(true);
+      setLoading(true);
       try {
         const { data } = await fetchReviewsFilmToId(movieId);
         setReviews(data.results);
       } catch (error) {
         setError(error.massage);
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
     getReviewsMovie(movieId);

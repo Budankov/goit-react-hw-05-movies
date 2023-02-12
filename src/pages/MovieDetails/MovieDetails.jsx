@@ -15,7 +15,7 @@ import styles from './MovieDetails.module.scss';
 
 const MovieDetails = () => {
   const [movies, setMovies] = useState([]);
-  const [loading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const { movieId } = useParams();
@@ -27,7 +27,7 @@ const MovieDetails = () => {
 
   useEffect(() => {
     const getTrandingMovie = async () => {
-      setIsLoading(true);
+      setLoading(true);
 
       try {
         const { data } = await fetchFilmToId(movieId);
@@ -35,7 +35,7 @@ const MovieDetails = () => {
       } catch (error) {
         setError(error.massage);
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
     getTrandingMovie(movieId);
@@ -92,10 +92,10 @@ const MovieDetails = () => {
       <div className={styles.MovieDetailsInfo}>
         <p className={styles.MovieDetailsSubInfo}>Додаткова інформація:</p>
         <div className={styles.MovieDetailsTextInfo}>
-          <Link state={{ from }} to={`/movies/${movieId}/cast`}>
+          <Link state={{ from }} to={`cast`}>
             Акторський склад
           </Link>
-          <Link state={{ from }} to={`/movies/${movieId}/reviews`}>
+          <Link state={{ from }} to={`reviews`}>
             Відгуки
           </Link>
           <Outlet />

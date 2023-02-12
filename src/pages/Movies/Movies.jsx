@@ -5,15 +5,14 @@ import { fetchSearchFilms } from 'shared/api/themoviedb';
 
 import MovieSearchForm from 'modules/MovieSearchForm/MovieSearchForm';
 import MovieList from 'modules/MovieList/MovieList';
+import Loader from 'shared/components/Loader/Loader';
 
 import styles from './Movies.module.scss';
 
 const Movies = () => {
-  const [state, setState] = useState({
-    items: [],
-    loading: false,
-    error: null,
-  });
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get('search');
@@ -21,27 +20,13 @@ const Movies = () => {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        setState(prevState => ({
-          ...prevState,
-          loading: true,
-        }));
-
+        setLoading(true);
         const { data } = await fetchSearchFilms(search);
-
-        setState(prevState => ({
-          ...prevState,
-          items: [...data.results],
-        }));
+        setItems(data.results);
       } catch (error) {
-        setState(prevState => ({
-          ...prevState,
-          error,
-        }));
+        setError(error.massage);
       } finally {
-        setState(prevState => ({
-          ...prevState,
-          loading: false,
-        }));
+        setLoading(false);
       }
     };
 
@@ -50,14 +35,15 @@ const Movies = () => {
     }
   }, [search]);
 
-  const changeSearch = ({ search }) => {
+  const changeSearch = search => {
     setSearchParams({ search });
   };
-  const { items } = state;
 
   return (
     <div>
       <h2 className={styles.title}>Пошук фільма</h2>
+      {loading && <Loader />}
+      {error && <p>{error.massage}</p>}
       <MovieSearchForm onSubmit={changeSearch} />
       {items.length > 0 && <MovieList items={items} />}
     </div>

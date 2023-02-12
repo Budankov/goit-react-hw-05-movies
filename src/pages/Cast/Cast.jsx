@@ -9,21 +9,21 @@ import styles from './Cast.module.scss';
 
 const Cast = () => {
   const [cast, setCast] = useState([]);
-  const [loading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const { movieId } = useParams();
 
   useEffect(() => {
     const getCastMovie = async () => {
-      setIsLoading(true);
+      setLoading(true);
       try {
         const { data } = await fetchCastFilmToId(movieId);
         setCast(data.cast);
       } catch (error) {
         setError(error.massage);
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
     getCastMovie(movieId);
