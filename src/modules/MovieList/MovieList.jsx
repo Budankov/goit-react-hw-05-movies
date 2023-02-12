@@ -1,5 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 
+import PropTypes from 'prop-types';
+
 import Loader from 'shared/components/Loader/Loader';
 
 const MovieList = ({ items, loading, error }) => {
@@ -26,4 +28,13 @@ export default MovieList;
 
 MovieList.defaultPorps = {
   items: [],
+};
+
+MovieList.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+    }).isRequired
+  ).isRequired,
 };

@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
+import PropTypes from 'prop-types';
+
 import styles from './MovieSearchForm.module.scss';
 
 const MovieSearchForm = ({ onSubmit }) => {
@@ -36,3 +38,7 @@ const MovieSearchForm = ({ onSubmit }) => {
 };
 
 export default MovieSearchForm;
+
+MovieSearchForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};

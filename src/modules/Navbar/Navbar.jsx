@@ -1,5 +1,7 @@
 import { NavLink } from 'react-router-dom';
 
+import PropTypes from 'prop-types';
+
 import styles from './Navbar.module.scss';
 
 const getClassName = ({ isActive }) => {
@@ -23,3 +25,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+getClassName.propTypes = {
+  isActive: PropTypes.bool.isRequired,
+};
