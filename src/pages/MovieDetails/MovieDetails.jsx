@@ -9,11 +9,13 @@ import {
 
 import { fetchFilmToId } from 'shared/api/themoviedb';
 
+import Loader from 'shared/components/Loader/Loader';
+
 import styles from './MovieDetails.module.scss';
 
 const MovieDetails = () => {
   const [movies, setMovies] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const { movieId } = useParams();
@@ -65,7 +67,7 @@ const MovieDetails = () => {
       <button className={styles.goBack} onClick={goBack}>
         Повернутись на попередню сторінку
       </button>
-      {isLoading && <p>Завантажую...</p>}
+      {loading && <Loader />}
       {error && <p>{error.massage}</p>}
       <div className={styles.MovieDetailsContainer}>
         <div className={styles.MovieDetailsImage}>

@@ -1,5 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 
+import Loader from 'shared/components/Loader/Loader';
+
 const MovieList = ({ items, loading, error }) => {
   const location = useLocation();
 
@@ -14,7 +16,7 @@ const MovieList = ({ items, loading, error }) => {
   return (
     <div>
       <ul>{elements}</ul>
-      {loading && <p>...Load movie</p>}
+      {loading && <Loader />}
       {error && <p>...Movie load failed</p>}
     </div>
   );

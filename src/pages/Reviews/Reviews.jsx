@@ -3,11 +3,13 @@ import { useParams } from 'react-router-dom';
 
 import { fetchReviewsFilmToId } from 'shared/api/themoviedb';
 
+import Loader from 'shared/components/Loader/Loader';
+
 import styles from './Reviews.module.scss';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const { movieId } = useParams();
@@ -45,7 +47,7 @@ const Reviews = () => {
   return (
     <div>
       <h3 className={styles.reviewsTitle}>Відгуки</h3>
-      {isLoading && <p>Завантажую...</p>}
+      {loading && <Loader />}
       {error && <p>{error.massage}</p>}
       <ul className={styles.reviewsList}>{renderReviewsList}</ul>
     </div>

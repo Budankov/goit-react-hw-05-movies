@@ -3,11 +3,13 @@ import { useParams } from 'react-router-dom';
 
 import { fetchCastFilmToId } from 'shared/api/themoviedb';
 
+import Loader from 'shared/components/Loader/Loader';
+
 import styles from './Cast.module.scss';
 
 const Cast = () => {
   const [cast, setCast] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const { movieId } = useParams();
@@ -56,7 +58,7 @@ const Cast = () => {
   return (
     <div>
       <h3 className={styles.castTitle}>Акторський склад</h3>
-      {isLoading && <p>Завантажую...</p>}
+      {loading && <Loader />}
       {error && <p>{error.massage}</p>}
       <ul className={styles.castList}>{renderCastList}</ul>
     </div>
